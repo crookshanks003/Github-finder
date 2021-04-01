@@ -8,7 +8,7 @@ function Navbar({ title }) {
             </h1>
             <ul>
                 <li>
-                    <Link to="/">Home</Link>
+                    <a href="/">Home</a>
                 </li>
                 <li>
                     <Link to="/about">About</Link>

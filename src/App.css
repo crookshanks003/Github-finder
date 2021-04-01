@@ -75,7 +75,7 @@ img {
 }
 
 .text-dark {
-  color: var(--dark-color);
+  color: var(--dark-color) !important ;
 }
 
 .text-success {
@@ -175,6 +175,10 @@ img {
 }
 .my-3 {
   margin: 3rem 0;
+}
+
+.mt-1 {
+  margin-top: 1rem;
 }
 
 .mt-5 {

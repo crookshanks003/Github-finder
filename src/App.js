@@ -53,7 +53,7 @@ class App extends Component {
                             <Route
                                 exact
                                 path="/"
-                                render={props => (
+                                render={() => (
                                     <Fragment>
                                         <Search
                                             searchUsers={this.searchUser}
@@ -73,7 +73,7 @@ class App extends Component {
                             />
                             <Route exact path='/about' component={About}/>
                             <Route exact path= '/user/:login' render={props => (
-                                <SingleUser singleUser={this.singleUser} user={this.state.user} loading={this.state.loading} {...props} />
+                                <SingleUser singleUser={this.singleUser} user={this.state.user} loading={this.state.loading} {...props}  />
                             )}/>
                         </Switch>
                     </div>

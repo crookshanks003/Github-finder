@@ -1,7 +1,7 @@
 import User from "./User";
 import Spinner from "../layout/Spinner";
 
-function Users({ users, loading}) {
+function Users({ users, loading }) {
     if (loading) {
         return <Spinner />;
     } else {

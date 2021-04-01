@@ -4,23 +4,22 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
 import Users from "./components/user/Users";
 import Search from "./components/user/Search";
-import About from './components/pages/About';
-import SingleUser from './components/user/SingleUser';
+import About from "./components/pages/About";
+import SingleUser from "./components/user/SingleUser";
 import axios from "axios";
 
 class App extends Component {
     state = {
         users: [],
         loading: false,
-        user: {}
+        user: {},
+        repos: [],
     };
 
     async componentDidMount() {
         this.setState({ loading: true });
 
-        const res = await axios.get(
-            `https://api.github.com/users`
-        );
+        const res = await axios.get(`https://api.github.com/users`);
 
         this.setState({ users: res.data, loading: false });
     }
@@ -37,11 +36,18 @@ class App extends Component {
     };
 
     singleUser = async login => {
-        this.setState({loading: true});
+        this.setState({ loading: true });
         const res = await axios.get(`https://api.github.com/users/${login}`);
-        this.setState({loading: false, user:res.data});
-    }
+        this.setState({ loading: false, user: res.data });
+    };
 
+    getRepos = async login => {
+        this.setState({ loading: true });
+        const res = await axios.get(
+            `https://api.github.com/users/${login}/repos?per_page=5&sort=created:asc`
+        );
+        this.setState({ loading: false, repos: res.data });
+    };
 
     render() {
         return (
@@ -71,10 +77,21 @@ class App extends Component {
                                     </Fragment>
                                 )}
                             />
-                            <Route exact path='/about' component={About}/>
-                            <Route exact path= '/user/:login' render={props => (
-                                <SingleUser singleUser={this.singleUser} user={this.state.user} loading={this.state.loading} {...props}  />
-                            )}/>
+                            <Route exact path="/about" component={About} />
+                            <Route
+                                exact
+                                path="/user/:login"
+                                render={props => (
+                                    <SingleUser
+                                        singleUser={this.singleUser}
+                                        user={this.state.user}
+                                        repos={this.state.repos}
+                                        loading={this.state.loading}
+                                        {...props}
+                                        getRepos={this.getRepos}
+                                    />
+                                )}
+                            />
                         </Switch>
                     </div>
                 </div>

@@ -1,16 +1,18 @@
 import React, { Component } from "react";
 import Spinner from "../layout/Spinner";
 import { Link } from "react-router-dom";
+import Repos from "./repos/Repos";
 
 export class SingleUser extends Component {
     componentDidMount() {
         this.props.singleUser(this.props.match.params.login);
-        console.log(this.props);
+        this.props.getRepos(this.props.match.params.login);
     }
 
     render() {
         const {
             login,
+            company,
             name,
             html_url,
             avatar_url,
@@ -18,6 +20,7 @@ export class SingleUser extends Component {
             followers,
             hirable,
             bio,
+            blog,
             public_repos,
             public_gists,
             location,
@@ -55,13 +58,65 @@ export class SingleUser extends Component {
                         <div>
                             {bio && (
                                 <>
-                                <h3>Bio:</h3>
-                                <p>{bio}</p>
+                                    <h3>Bio:</h3>
+                                    <p>{bio}</p>
                                 </>
                             )}
-                            <a href={html_url} className="btn btn-dark my-1">Visit GitHub Profile</a>
+                            <ul className="mt-1">
+                                <li>
+                                    {login && (
+                                        <>
+                                            <span className="text-bold">
+                                                Username:
+                                            </span>{" "}
+                                            {login}
+                                        </>
+                                    )}
+                                </li>
+                                <li className="mt-05">
+                                    {company && (
+                                        <>
+                                            <span className="text-bold">
+                                                Company:
+                                            </span>{" "}
+                                            {company}
+                                        </>
+                                    )}
+                                </li>
+                                <li className="mt-05">
+                                    {blog && (
+                                        <>
+                                            <span className="text-bold">
+                                                Website:
+                                            </span>{" "}
+                                            <a href={blog}>{blog}</a>
+                                        </>
+                                    )}
+                                </li>
+                            </ul>
+                            <a
+                                href={html_url}
+                                className="btn btn-dark mt-1"
+                                target="blank">
+                                Visit GitHub Profile
+                            </a>
                         </div>
                     </div>
+                    <div className="card text-center">
+                        <div className="badge badge-primary">
+                            Followers: {followers}
+                        </div>
+                        <div className="badge badge-success">
+                            Following: {following}
+                        </div>
+                        <div className="badge badge-light">
+                            Public Repos: {public_repos}
+                        </div>
+                        <div className="badge badge-dark">
+                            Public Gists: {public_gists}
+                        </div>
+                    </div>
+                    <Repos repos={this.props.repos} />
                 </>
             );
         }

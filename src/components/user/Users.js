@@ -1,13 +1,17 @@
+import { useContext } from "react";
 import User from "./User";
 import Spinner from "../layout/Spinner";
+import GithubContext from "../../context/github/githubContext";
 
-function Users({ users, loading }) {
-    if (loading) {
+function Users() {
+    const githubContext = useContext(GithubContext);
+
+    if (githubContext.loading) {
         return <Spinner />;
     } else {
         return (
             <div style={style}>
-                {users.map(user => (
+                {githubContext.users.map(user => (
                     <User key={user.id} user={user} />
                 ))}
             </div>

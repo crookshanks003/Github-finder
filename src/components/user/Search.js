@@ -1,43 +1,43 @@
-import React, { Component } from "react";
+import { useContext, useState } from "react";
+import GithubContext from "../../context/github/githubContext";
 
-export class Search extends Component {
-    state = {
-        search: "",
-    };
+const Search = () => {
+    const [search, setText] = useState("");
 
-    onChange = e => this.setState({ [e.target.name]: e.target.value });
+    const githubContext = useContext(GithubContext);
 
-    onSubmit = e => {
+    const onChange = e => setText(e.target.value);
+
+    const isClear = true ? githubContext.users.length > 0 : false;
+
+    const onSubmit = e => {
         e.preventDefault();
-        if (this.state.search === "") return;
-        this.props.searchUsers(this.state.search);
-        this.setState({ search: "" });
+        if (search === "") return;
+        githubContext.searchUsers(search);
+        setText("");
     };
-
-    render() {
-        return (
-            <div>
-                <form className="form" style={style} onSubmit={this.onSubmit}>
-                    <input
-                        type="text"
-                        name="search"
-                        placeholder="Search Users..."
-                        onChange={this.onChange}
-                        value={this.state.text}
-                    />
-                    <input type="submit" className="btn btn-dark" />
-                </form>
-                {this.props.isClear && (
-                    <button
-                        className="btn btn-light btn-block"
-                        onClick={this.props.clearUsers}>
-                        Clear
-                    </button>
-                )}
-            </div>
-        );
-    }
-}
+    return (
+        <div>
+            <form className="form" style={style} onSubmit={onSubmit}>
+                <input
+                    type="text"
+                    name="search"
+                    placeholder="Search Users..."
+                    onChange={onChange}
+                    value={search}
+                />
+                <input type="submit" className="btn btn-dark" />
+            </form>
+            {isClear && (
+                <button
+                    className="btn btn-light btn-block"
+                    onClick={githubContext.clearUsers}>
+                    Clear
+                </button>
+            )}
+        </div>
+    );
+};
 
 const style = {
     display: "grid",
